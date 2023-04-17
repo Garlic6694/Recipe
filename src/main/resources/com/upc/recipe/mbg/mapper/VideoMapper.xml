@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upc.recipe.mbg.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.upc.recipe.mbg.model.Video">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+    <result column="scan_count" jdbcType="INTEGER" property="scanCount" />
+    <result column="com_count" jdbcType="INTEGER" property="comCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upc.recipe.mbg.model.Video">
+    <result column="title" jdbcType="LONGVARCHAR" property="title" />
+    <result column="url" jdbcType="LONGVARCHAR" property="url" />
+    <result column="imgurl" jdbcType="LONGVARCHAR" property="imgurl" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, like_count, scan_count, com_count
+  </sql>
+  <sql id="Blob_Column_List">
+    title, url, imgurl
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.upc.recipe.mbg.model.VideoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.upc.recipe.mbg.model.VideoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.upc.recipe.mbg.model.VideoExample">
+    delete from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.upc.recipe.mbg.model.Video">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into video (like_count, scan_count, com_count, 
+      title, url, imgurl
+      )
+    values (#{likeCount,jdbcType=INTEGER}, #{scanCount,jdbcType=INTEGER}, #{comCount,jdbcType=INTEGER}, 
+      #{title,jdbcType=LONGVARCHAR}, #{url,jdbcType=LONGVARCHAR}, #{imgurl,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.upc.recipe.mbg.model.Video">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="scanCount != null">
+        scan_count,
+      </if>
+      <if test="comCount != null">
+        com_count,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="imgurl != null">
+        imgurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="scanCount != null">
+        #{scanCount,jdbcType=INTEGER},
+      </if>
+      <if test="comCount != null">
+        #{comCount,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.upc.recipe.mbg.model.VideoExample" resultType="java.lang.Long">
+    select count(*) from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update video
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.likeCount != null">
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.scanCount != null">
+        scan_count = #{record.scanCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.comCount != null">
+        com_count = #{record.comCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.imgurl != null">
+        imgurl = #{record.imgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update video
+    set id = #{record.id,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      scan_count = #{record.scanCount,jdbcType=INTEGER},
+      com_count = #{record.comCount,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=LONGVARCHAR},
+      url = #{record.url,jdbcType=LONGVARCHAR},
+      imgurl = #{record.imgurl,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update video
+    set id = #{record.id,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      scan_count = #{record.scanCount,jdbcType=INTEGER},
+      com_count = #{record.comCount,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.upc.recipe.mbg.model.Video">
+    update video
+    <set>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="scanCount != null">
+        scan_count = #{scanCount,jdbcType=INTEGER},
+      </if>
+      <if test="comCount != null">
+        com_count = #{comCount,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgurl != null">
+        imgurl = #{imgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.upc.recipe.mbg.model.Video">
+    update video
+    set like_count = #{likeCount,jdbcType=INTEGER},
+      scan_count = #{scanCount,jdbcType=INTEGER},
+      com_count = #{comCount,jdbcType=INTEGER},
+      title = #{title,jdbcType=LONGVARCHAR},
+      url = #{url,jdbcType=LONGVARCHAR},
+      imgurl = #{imgurl,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.upc.recipe.mbg.model.Video">
+    update video
+    set like_count = #{likeCount,jdbcType=INTEGER},
+      scan_count = #{scanCount,jdbcType=INTEGER},
+      com_count = #{comCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

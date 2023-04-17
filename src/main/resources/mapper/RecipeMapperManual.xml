@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upc.recipe.mapper.RecipeMapperManual">
+    <select id="queryById" resultType="com.upc.recipe.mbg.model.Recipe" parameterType="int">
+        SELECT *
+        FROM recipe
+        WHERE id = #{id}
+    </select>
+    <select id="listPageRecipe" resultType="com.upc.recipe.mbg.model.Recipe" parameterType="int">
+        select *
+        from recipe as t1
+                 join (SELECT id
+                       FROM recipe limit #{offsetNum}, #{limitNum}) as t2
+                       where t1.id = t2.id;
+    </select>
+</mapper>

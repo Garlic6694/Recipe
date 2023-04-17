@@ -1,0 +1,92 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.138:3306/xiafannew?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #druid 数据源专有配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+
+      #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+      filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 10MB #限制文件上传大小为10M
+
+  redis:
+    host: 192.168.1.138
+    database: 0           # Redis数据库索引（默认为0）
+    port: 6379            # Redis服务器连接端口
+    password: garlic6694  # Redis服务器连接密码（默认为空）
+    lettuce:
+      pool:
+        max-active: 8     # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8       # 连接池中的最大空闲连接
+        min-idle: 0       # 连接池中的最小空闲连接
+      shutdown-timeout: 100ms
+    timeout: 3000ms       # 连接超时时间（毫秒）
+  cache:
+    type: redis
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  data:
+    elasticsearch:
+      repositories:
+        enabled: false
+  elasticsearch:
+    uris: http://192.168.1.138:9200
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
+  configuration-properties:
+    offsetAsPageNum: true
+    rowBoundsWithCount: true
+    reasonable: true
+
+page helper:
+  helper-dialect: mysql               #使用的数据库. mysql, oracle, sqlite
+  reasonable: true                    #开启优化,在分页页码结果没有数据的时候,会显示有数据的页码数据,也就是当当前页<1时,返回第 1 页, 当当前页 > 最大页时, 返回最后一页的数据.
+  support-methods-arguments: true     #是否支持接口参数来传递分页参数，默认false
+  pageSizeZero: false                 #表示当 pageSize=0 时返回所有
+  params: count=countSql
+
+
+jwt: # 自定义jwt key
+  tokenHeader: Authorization  #JWT存储的请求头
+  #JWT加解密使用的密钥 必须大于512bits
+  secret: WoAiWangHaiHuiXiaoShuiXinBPyt0N56MDQnM9H9bxGaXOFlbQua60bqjJ1MWF2AaIw5YVXiaqi84ZzSAEGw8lsx0eMftZ0rZLD5wOJRAgckxkxzdJ7VZoUEl6
+  expiration: 3600          #JWT的超期限时间(60s*60m*24h)
+  tokenHead: Bearer           #JWT负载中拿到开头
+
+# MinIO对象存储相关配置
+minio:
+  endpoint: http://192.168.1.138:9090 #MinIO服务所在地址
+  bucketName: xiafan #存储桶名称
+  accessKey: minioadmin #访问的key
+  secretKey: minioadmin #访问的秘钥
