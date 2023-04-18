@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upc.recipe.mapper.VoteMapperManual">
+    <select id="getVotedRecipeByUserId" resultType="INTEGER" parameterType="int">
+        select recipe_id
+        from vote_document
+        where user_id = #{userId}
+    </select>
+
+    <select id="getRecipeVotesByRecipeId" resultType="INTEGER" parameterType="int">
+        select votes
+        from vote_recipe
+        where recipe_id = #{recipeId}
+    </select>
+
+    <select id="getUserVotedRecipes" resultType="INTEGER" parameterType="int">
+        select distinct recipe_id
+        from vote_document
+        where user_id = #{userId}
+          and voting = 1
+    </select>
+
+    <select id="getUserUnVotedRecipes" resultType="INTEGER" parameterType="int">
+        select distinct recipe_id
+        from vote_document
+        where user_id = #{userId}
+          and voting = 0
+    </select>
+
+    <insert id="insertOneUserRecipe">
+        INSERT INTO vote_document(user_id, recipe_id, voting)
+        VALUE
+        (
+        #{userId,jdbcType=INTEGER},
+        #{recipeId,jdbcType=INTEGER},
+        #{voting,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <insert id="insertUserRecipeBatch">
+        INSERT INTO vote_document(user_id, recipe_id, voting)
+        VALUES
+        <foreach collection="voteDocumentList" item="item" separator=",">
+            (
+            #{item.userId,jdbcType=INTEGER},
+            #{item.recipeId,jdbcType=INTEGER},
+            #{item.voting,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertOneRecipeVotes">
+        INSERT INTO vote_recipe(recipe_id, votes)
+        VALUES
+        (
+        #{recipeId,jdbcType=INTEGER},
+        #{votes,jdbcType=INTEGER}
+        )
+        ON DUPLICATE KEY UPDATE
+        <trim prefix="" suffixOverrides=",">
+            <if test="recipeId != null and recipeId != ''">
+                recipe_id = values(recipe_id),
+            </if>
+            <if test="votes != null and votes != ''">
+                votes = values(votes)
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertRecipeVotesBatch">
+        INSERT INTO vote_recipe(recipe_id, votes)
+        VALUES
+        <foreach collection="voteRecipeList" item="item" separator=",">
+            (
+            #{item.recipeId,jdbcType=INTEGER},
+            #{item.votes,jdbcType=INTEGER}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        <trim prefix="" suffixOverrides=",">
+            <foreach collection="voteRecipeList" separator="," item="item">
+                <if test="item.recipeId != null and item.recipeId != ''">
+                    recipe_id = values(recipe_id),
+                </if>
+                <if test="item.votes != null and item.votes != ''">
+                    votes = values(votes)
+                </if>
+            </foreach>
+        </trim>
+    </insert>
+
+</mapper>

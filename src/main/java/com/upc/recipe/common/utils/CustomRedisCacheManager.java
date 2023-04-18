@@ -1,6 +1,7 @@
 package com.upc.recipe.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -23,8 +24,9 @@ public class CustomRedisCacheManager extends RedisCacheManager {
      * @param cacheConfig
      * @return
      */
+    @NotNull
     @Override
-    protected RedisCache createRedisCache(String name, RedisCacheConfiguration cacheConfig) {
+    protected RedisCache createRedisCache(@NotNull String name, RedisCacheConfiguration cacheConfig) {
         String[] array = StringUtils.delimitedListToStringArray(name, "#");
         name = array[0];
         // 解析TTL

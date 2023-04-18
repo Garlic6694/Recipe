@@ -1,7 +1,6 @@
 package com.upc.recipe.service;
 
 
-import com.upc.recipe.common.api.result.ResultData;
 import com.upc.recipe.mbg.model.Recipe;
 import com.upc.recipe.mbg.model.Video;
 

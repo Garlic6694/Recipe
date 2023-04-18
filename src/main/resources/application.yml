@@ -90,3 +90,13 @@ minio:
   bucketName: xiafan #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
+
+rocketmq:
+  name-server: 192.168.1.138:9876
+  producer:
+    group: myGroup
+  topic: rocket-topic-2
+  consumer :
+    group1: consumer-group-1
+    group2: consumer-group-2
+  tag: tag-2

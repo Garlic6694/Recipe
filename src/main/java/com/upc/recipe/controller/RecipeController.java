@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upc.recipe.annotation.AnonymousAccess;
 import com.upc.recipe.common.api.CommonResult;
-import com.upc.recipe.common.api.result.ResultData;
 import com.upc.recipe.mbg.model.Recipe;
 import com.upc.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;

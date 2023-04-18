@@ -8,7 +8,7 @@ import lombok.Data;
  * 用户权限表
  * ums_permission
  * @author canwe
- * @date 2023-04-12 19:42:51
+ * @date 2023-04-18 10:37:32
  */
 @Data
 public class UmsPermission implements Serializable {

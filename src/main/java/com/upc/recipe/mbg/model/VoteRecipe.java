@@ -5,44 +5,41 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 后台用户表
- * ums_user
+ * vote_recipe
  * @author canwe
  * @date 2023-04-18 10:37:32
  */
 @Data
-public class UmsUser implements Serializable {
+public class VoteRecipe implements Serializable {
     /**
+     * ID
+     *
+     * @mbg.generated
+     */
+    /**
+     * ID
      */
     private Integer id;
 
     /**
-     */
-    private String username;
-
-    /**
-     */
-    private String password;
-
-    /**
-     * 角色id
+     * 菜谱id
      *
      * @mbg.generated
      */
     /**
-     * 角色id
+     * 菜谱id
      */
-    private Integer roleId;
+    private Integer recipeId;
 
     /**
-     * 启用状态；0->禁用；1->启用
+     * 投下/放弃这一点赞后，内容在此刻的点赞总数
      *
      * @mbg.generated
      */
     /**
-     * 启用状态；0->禁用；1->启用
+     * 投下/放弃这一点赞后，内容在此刻的点赞总数
      */
-    private Integer status;
+    private Integer votes;
 
     /**
      * 创建时间
@@ -52,7 +49,17 @@ public class UmsUser implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createDate;
+
+    /**
+     * 更新时间
+     *
+     * @mbg.generated
+     */
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -63,11 +70,10 @@ public class UmsUser implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", roleId=").append(roleId);
-        sb.append(", status=").append(status);
-        sb.append(", createTime=").append(createTime);
+        sb.append(", recipeId=").append(recipeId);
+        sb.append(", votes=").append(votes);
+        sb.append(", createDate=").append(createDate);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
