@@ -39,7 +39,7 @@ public class VoteController {
     @PostMapping(value = "/voting")
     public CommonResult<?> vote(@RequestParam int userId, @RequestParam int recipeId, @RequestParam boolean voting) {
         byte voteOrNot = (byte) (voting ? 1 : 0);
-        Integer sumVote = voteService.vote(userId, recipeId, voting);
+        Integer sumVote = voteService.like(userId, recipeId, voting);
 
         voteDoc.setUserId(userId);
         voteDoc.setRecipeId(recipeId);

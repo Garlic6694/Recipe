@@ -37,6 +37,8 @@ public interface VoteMapperManual {
      */
     void insertUserRecipeBatch(List<VoteDocument> voteDocumentList);
 
+    void deleteUserRecipeBatch(List<VoteDocument> voteDocumentList);
+
     void insertOneUserRecipe(VoteDocument voteDocument);
 
     /**
@@ -44,7 +46,10 @@ public interface VoteMapperManual {
      */
     void insertRecipeVotesBatch(List<VoteRecipe> voteRecipeList);
 
+    void deleteRecipeVotesBatch(List<VoteRecipe> voteRecipeList);
+
     void insertOneRecipeVotes(VoteRecipe voteRecipe);
 
+    Integer isUserVotedOrNot(Integer userId, Integer recipeId);
 
 }

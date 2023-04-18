@@ -28,9 +28,8 @@ public class RocketServiceListener {
             VoteDocument voteDocument = resultJson.getObject("voteDoc", VoteDocument.class);
             VoteRecipe voteRecipe = resultJson.getObject("voteRecipe", VoteRecipe.class);
 
-            unprocessedMessage.addHistory(voteDocument);
+            unprocessedMessage.addUserVotes(voteDocument);
             unprocessedMessage.addRecipeVotes(voteRecipe);
-
 
             log.info("consumer1 rocket收到消息：{}", s);
         }

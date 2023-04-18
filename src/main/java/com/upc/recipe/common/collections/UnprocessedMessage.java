@@ -1,5 +1,6 @@
 package com.upc.recipe.common.collections;
 
+import com.upc.recipe.common.constants.RedisKeyConstants;
 import com.upc.recipe.mbg.model.VoteDocument;
 import com.upc.recipe.mbg.model.VoteRecipe;
 
@@ -11,23 +12,41 @@ import java.util.stream.Collectors;
 
 public class UnprocessedMessage {
 
-    private static final List<VoteDocument> UNPROCESSED_MESSAGE_VD_HIS_LIST = new ArrayList<>();
+    private static final Map<String, VoteDocument> UNPROCESSED_MESSAGE_USER_VOTES_MAP = new ConcurrentHashMap<>();
 
     private static final Map<Integer, VoteRecipe> UNPROCESSED_MESSAGE_RECIPE_VOTES_MAP = new ConcurrentHashMap<>();
 
     public void clear() {
-        UNPROCESSED_MESSAGE_VD_HIS_LIST.clear();
         UNPROCESSED_MESSAGE_RECIPE_VOTES_MAP.clear();
+        UNPROCESSED_MESSAGE_USER_VOTES_MAP.clear();
     }
 
-    public boolean addHistory(VoteDocument voteDocument) {
-        return UNPROCESSED_MESSAGE_VD_HIS_LIST.add(voteDocument);
+
+
+    public boolean addUserVotes(VoteDocument voteDocument) {
+        String key = RedisKeyConstants.getUserRecipeKey(voteDocument.getUserId(), voteDocument.getRecipeId());
+        if (UNPROCESSED_MESSAGE_USER_VOTES_MAP.containsKey(key)) {
+            UNPROCESSED_MESSAGE_USER_VOTES_MAP.get(key).setVoting(voteDocument.getVoting());
+        } else {
+            UNPROCESSED_MESSAGE_USER_VOTES_MAP.put(key, voteDocument);
+        }
+
+        return true;
     }
 
-    public List<VoteDocument> getHistoryList() {
-        return UNPROCESSED_MESSAGE_VD_HIS_LIST;
+    public List<VoteDocument> getUserUnVoteList() {
+        return UNPROCESSED_MESSAGE_USER_VOTES_MAP.values()
+                .stream()
+                .filter(x -> x.getVoting().equals((byte) 0))
+                .collect(Collectors.toList());
     }
 
+    public List<VoteDocument> getUserVoteList() {
+        return UNPROCESSED_MESSAGE_USER_VOTES_MAP.values()
+                .stream()
+                .filter(x -> x.getVoting().equals((byte) 1))
+                .collect(Collectors.toList());
+    }
 
     public boolean addRecipeVotes(VoteRecipe voteRecipe) {
         Integer recipeId = voteRecipe.getRecipeId();

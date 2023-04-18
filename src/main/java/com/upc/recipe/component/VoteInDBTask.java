@@ -2,7 +2,6 @@ package com.upc.recipe.component;
 
 import com.upc.recipe.common.collections.UnprocessedMessage;
 import com.upc.recipe.common.factory.SingletonFactory;
-import com.upc.recipe.mbg.model.Recipe;
 import com.upc.recipe.mbg.model.VoteDocument;
 import com.upc.recipe.mbg.model.VoteRecipe;
 import com.upc.recipe.service.VoteService;
@@ -22,25 +21,36 @@ public class VoteInDBTask {
     @Autowired
     private VoteService voteService;
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0/600 * * * * ?")
     private void cancelTimeOutOrder() {
-        writeVDIntoDB();
         writeRecipeVotesIntoDB();
+        writeUserVoteDB();
+        deleteUserUnVoteDB();
 
         unprocessedMessage.clear();
     }
 
-    public void writeVDIntoDB() {
-        List<VoteDocument> voteDocumentList = unprocessedMessage.getHistoryList();
+    public void writeUserVoteDB() {
+        List<VoteDocument> voteDocumentList = unprocessedMessage.getUserVoteList();
         if (voteDocumentList.size() > 0) {
+            voteService.deleteUserUnVoteList(voteDocumentList);
             voteService.insertUserVoteList(voteDocumentList);
             log.info("点赞消息入库成功");
+        }
+    }
+
+    public void deleteUserUnVoteDB() {
+        List<VoteDocument> voteDocumentList = unprocessedMessage.getUserUnVoteList();
+        if (voteDocumentList.size() > 0) {
+            voteService.deleteUserUnVoteList(voteDocumentList);
+            log.info("取消点赞消息入库成功");
         }
     }
 
     public void writeRecipeVotesIntoDB() {
         List<VoteRecipe> voteRecipeList = unprocessedMessage.getRecipeVoteList();
         if (voteRecipeList.size() > 0) {
+            voteService.deleteRecipeVoteList(voteRecipeList);
             voteService.insertRecipeVoteList(voteRecipeList);
             log.info("菜谱总点赞消息入库成功");
         }

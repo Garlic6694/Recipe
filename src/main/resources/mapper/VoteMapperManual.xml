@@ -51,6 +51,17 @@
         </foreach>
     </insert>
 
+    <delete id="deleteUserRecipeBatch">
+        delete from vote_document where
+        <foreach collection="voteDocumentList" item="item" separator=" or " index="index">
+            (
+            user_id = #{item.userId,jdbcType=INTEGER}
+            and
+            recipe_id = #{item.recipeId,jdbcType=INTEGER}
+            )
+        </foreach>
+    </delete>
+
     <insert id="insertOneRecipeVotes">
         INSERT INTO vote_recipe(recipe_id, votes)
         VALUES
@@ -69,6 +80,15 @@
         </trim>
     </insert>
 
+    <delete id="deleteRecipeVotesBatch">
+        delete from vote_recipe where
+        <foreach collection="voteRecipeList" item="item" separator=" or " index="index">
+            (
+            recipe_id = #{item.recipeId,jdbcType=INTEGER}
+            )
+        </foreach>
+    </delete>
+
     <insert id="insertRecipeVotesBatch">
         INSERT INTO vote_recipe(recipe_id, votes)
         VALUES
@@ -78,17 +98,14 @@
             #{item.votes,jdbcType=INTEGER}
             )
         </foreach>
-        ON DUPLICATE KEY UPDATE
-        <trim prefix="" suffixOverrides=",">
-            <foreach collection="voteRecipeList" separator="," item="item">
-                <if test="item.recipeId != null and item.recipeId != ''">
-                    recipe_id = values(recipe_id),
-                </if>
-                <if test="item.votes != null and item.votes != ''">
-                    votes = values(votes)
-                </if>
-            </foreach>
-        </trim>
     </insert>
+
+    <select id="isUserVotedOrNot" resultType="INTEGER" parameterType="int">
+        select user_id
+        from vote_document
+        where user_id = #{userId} and recipe_id = #{recipeId}
+    </select>
+
+
 
 </mapper>

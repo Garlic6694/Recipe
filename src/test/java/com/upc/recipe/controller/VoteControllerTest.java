@@ -6,31 +6,28 @@ import com.upc.recipe.mbg.model.VoteDocument;
 import com.upc.recipe.mbg.model.VoteRecipe;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoteControllerTest {
 
     @Test
     void vote() {
-        VoteDocument voteDoc = new VoteDocument();
-        voteDoc.setUserId(12);
-        voteDoc.setRecipeId(10);
-        voteDoc.setVoting((byte) 1);
-
-        VoteRecipe voteRecipe = new VoteRecipe();
-        voteRecipe.setRecipeId(10);
-        voteRecipe.setVotes(200);
-
-
-        JSONObject fullObject = new JSONObject();
-        fullObject.put("voteDoc", voteDoc);
-        fullObject.put("voteRecipe", voteRecipe);
-
-        System.out.println(fullObject.toString());
-
-        JSONObject resultJson = JSON.parseObject(fullObject.toString());
-        VoteDocument voteDocument = resultJson.getObject("voteDoc", VoteDocument.class);
-        System.out.println(voteDocument);
+        Map<Integer, Byte> map = new HashMap<>();
+        map.put(10, (byte) 0);
+        map.put(20, (byte) 0);
+        map.put(30, (byte) 1);
+        map.put(40, (byte) 0);
+        map.put(50, (byte) 1);
+        System.out.println("\n3. Export Map Value to List..., say no to banana");
+        List<Byte> result3 = map.values().stream()
+                .filter(x -> x.equals((byte)0))
+                .collect(Collectors.toList());
+        result3.forEach(System.out::println);
 
     }
 
