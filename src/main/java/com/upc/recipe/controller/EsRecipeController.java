@@ -5,6 +5,8 @@ import com.upc.recipe.common.api.CommonPage;
 import com.upc.recipe.common.api.CommonResult;
 import com.upc.recipe.nosql.elasticsearch.document.EsRecipe;
 import com.upc.recipe.service.EsRecipeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "EsRecipeController", value = "ES操作")
 @RestController
 @RequestMapping("/esRecipe")
 public class EsRecipeController {
     @Autowired
     private EsRecipeService esRecipeService;
 
+    @ApiOperation("将所有菜谱导入ES")
     @PreAuthorize("hasAuthority('admin:update')")
     @PostMapping(value = "/importAll")
     public CommonResult<Integer> importALl() {
@@ -26,6 +30,7 @@ public class EsRecipeController {
         return CommonResult.success(count);
     }
 
+    @ApiOperation("根据id删除ES中的菜谱")
     @PreAuthorize("hasAuthority('admin:delete')")
     @GetMapping(value = "/delete/{id}")
     public CommonResult<?> delete(@PathVariable Integer id) {
@@ -38,6 +43,7 @@ public class EsRecipeController {
         }
     }
 
+    @ApiOperation("根据id导入此菜谱到ES")
     @PreAuthorize("hasAuthority('admin:update')")
     @PostMapping(value = "/create/{id}")
     public CommonResult<?> create(@PathVariable Integer id) {
@@ -49,6 +55,7 @@ public class EsRecipeController {
         }
     }
 
+    @ApiOperation("根据ids批量删除ES中的菜谱")
     @PreAuthorize("hasAuthority('admin:delete')")
     @PostMapping(value = "/delete/batch")
     public CommonResult<Object> delete(@RequestParam("ids") List<Integer> ids) {
@@ -61,6 +68,7 @@ public class EsRecipeController {
         }
     }
 
+    @ApiOperation("根据关键词检索")
     @AnonymousAccess
     @GetMapping(value = "/search/simple")
     public CommonResult<CommonPage<EsRecipe>> search(@RequestParam() String keyword,

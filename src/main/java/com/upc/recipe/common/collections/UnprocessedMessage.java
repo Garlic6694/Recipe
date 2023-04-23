@@ -3,6 +3,7 @@ package com.upc.recipe.common.collections;
 import com.upc.recipe.common.constants.RedisKeyConstants;
 import com.upc.recipe.mbg.model.VoteDocument;
 import com.upc.recipe.mbg.model.VoteRecipe;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Component
 public class UnprocessedMessage {
 
     private static final Map<String, VoteDocument> UNPROCESSED_MESSAGE_USER_VOTES_MAP = new ConcurrentHashMap<>();

@@ -1,12 +1,13 @@
 package com.upc.recipe.mbg.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
 
 /**
  * recipe
  * @author canwe
- * @date 2023-04-18 10:37:32
+ * @date 2023-04-22 00:17:28
  */
 @Data
 public class Recipe implements Serializable {
@@ -14,11 +15,7 @@ public class Recipe implements Serializable {
      */
     private Integer id;
 
-    /**
-     * 启用状态；0->禁用；1->启用
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "启用状态；0->禁用；1->启用")
     /**
      * 启用状态；0->禁用；1->启用
      */

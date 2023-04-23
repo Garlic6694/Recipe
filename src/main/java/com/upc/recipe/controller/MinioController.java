@@ -5,6 +5,8 @@ import com.upc.recipe.common.api.CommonResult;
 import com.upc.recipe.common.utils.MinioUtils;
 import com.upc.recipe.dto.MinioUploadDto;
 import io.minio.MinioClient;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Api(tags = "MinioController", value = "OSS")
 @Slf4j
 @RestController
 @RequestMapping("/minio")
@@ -36,9 +39,10 @@ public class MinioController {
     @Autowired
     private MinioUtils minioUtils;
 
+    @ApiOperation("上传对象")
     @AnonymousAccess
     @PostMapping(value = "/upload")
-    public CommonResult<?> upload(@RequestParam("file") MultipartFile file) {
+    public CommonResult<?> upload(@RequestPart("file") MultipartFile file) {
         try {
             MinioClient minioClient = MinioClient.builder()
                     .endpoint(ENDPOINT)
@@ -63,6 +67,7 @@ public class MinioController {
         return CommonResult.failed("上传失败");
     }
 
+    @ApiOperation("根据对象名删除")
     @AnonymousAccess
     @PostMapping(value = "/delete")
     public CommonResult<?> delete(@RequestParam("objectName") String objectName) {
@@ -83,6 +88,7 @@ public class MinioController {
 
     }
 
+    @ApiOperation("根据对象名下载")
     @AnonymousAccess
     @GetMapping("/downloadFile")
     public CommonResult<?> downloadFile(@RequestParam String objectName, HttpServletResponse response) {
@@ -106,6 +112,7 @@ public class MinioController {
         return CommonResult.failed("下载失败");
     }
 
+    @ApiOperation("根据对象名获取预览链接")
     @AnonymousAccess
     @GetMapping("/getPreviewFileUrl")
     public CommonResult<?> getPreviewFileUrl(@RequestParam String objectName) {

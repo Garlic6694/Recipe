@@ -1,5 +1,6 @@
 package com.upc.recipe.mbg.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.Data;
  * 后台用户表
  * ums_user
  * @author canwe
- * @date 2023-04-18 10:37:32
+ * @date 2023-04-22 00:17:28
  */
 @Data
 public class UmsUser implements Serializable {
@@ -24,31 +25,19 @@ public class UmsUser implements Serializable {
      */
     private String password;
 
-    /**
-     * 角色id
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "角色id")
     /**
      * 角色id
      */
     private Integer roleId;
 
-    /**
-     * 启用状态；0->禁用；1->启用
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "启用状态；0->禁用；1->启用")
     /**
      * 启用状态；0->禁用；1->启用
      */
     private Integer status;
 
-    /**
-     * 创建时间
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "创建时间")
     /**
      * 创建时间
      */

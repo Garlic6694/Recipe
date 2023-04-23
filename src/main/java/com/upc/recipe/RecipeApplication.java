@@ -6,7 +6,6 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @SpringBootApplication
 @EnableElasticsearchRepositories(basePackages = "com.upc.recipe.nosql.elasticsearch.repository")
-
 public class RecipeApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecipeApplication.class, args);

@@ -1,13 +1,13 @@
 package com.upc.recipe.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.util.Random;
 

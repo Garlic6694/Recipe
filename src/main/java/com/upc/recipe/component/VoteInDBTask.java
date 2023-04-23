@@ -16,12 +16,13 @@ import java.util.List;
 @Component
 public class VoteInDBTask {
 
-    private final UnprocessedMessage unprocessedMessage = SingletonFactory.getInstance(UnprocessedMessage.class);
+    @Autowired
+    private UnprocessedMessage unprocessedMessage;
 
     @Autowired
     private VoteService voteService;
 
-    @Scheduled(cron = "0/600 * * * * ?")
+    @Scheduled(cron = "0/30 * * * * ?")
     private void cancelTimeOutOrder() {
         writeRecipeVotesIntoDB();
         writeUserVoteDB();

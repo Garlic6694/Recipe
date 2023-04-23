@@ -1,12 +1,13 @@
 package com.upc.recipe.mbg.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
 
 /**
  * video
  * @author canwe
- * @date 2023-04-18 10:37:32
+ * @date 2023-04-22 00:17:28
  */
 @Data
 public class Video implements Serializable {

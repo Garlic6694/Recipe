@@ -1,5 +1,6 @@
 package com.upc.recipe.mbg.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
@@ -7,65 +8,41 @@ import lombok.Data;
 /**
  * vote_document
  * @author canwe
- * @date 2023-04-18 10:37:32
+ * @date 2023-04-22 00:17:28
  */
 @Data
 public class VoteDocument implements Serializable {
-    /**
-     * ID
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "ID")
     /**
      * ID
      */
     private Integer id;
 
-    /**
-     * 用户id
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "用户id")
     /**
      * 用户id
      */
     private Integer userId;
 
-    /**
-     * 菜谱id
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "菜谱id")
     /**
      * 菜谱id
      */
     private Integer recipeId;
 
-    /**
-     * 点赞状态（0：取消点赞 1:点赞）
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "点赞状态（0：取消点赞 1:点赞）")
     /**
      * 点赞状态（0：取消点赞 1:点赞）
      */
     private Byte voting;
 
-    /**
-     * 创建时间
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "创建时间")
     /**
      * 创建时间
      */
     private Date createDate;
 
-    /**
-     * 更新时间
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "更新时间")
     /**
      * 更新时间
      */

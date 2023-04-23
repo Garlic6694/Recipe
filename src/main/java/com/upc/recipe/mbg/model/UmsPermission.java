@@ -1,5 +1,6 @@
 package com.upc.recipe.mbg.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.Data;
  * 用户权限表
  * ums_permission
  * @author canwe
- * @date 2023-04-18 10:37:32
+ * @date 2023-04-22 00:17:28
  */
 @Data
 public class UmsPermission implements Serializable {
@@ -16,41 +17,25 @@ public class UmsPermission implements Serializable {
      */
     private Integer id;
 
-    /**
-     * 名称
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "名称")
     /**
      * 名称
      */
     private String name;
 
-    /**
-     * 权限值
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "权限值")
     /**
      * 权限值
      */
     private String value;
 
-    /**
-     * 启用状态；0->禁用；1->启用
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "启用状态；0->禁用；1->启用")
     /**
      * 启用状态；0->禁用；1->启用
      */
     private Integer status;
 
-    /**
-     * 创建时间
-     *
-     * @mbg.generated
-     */
+    @ApiModelProperty(value = "创建时间")
     /**
      * 创建时间
      */
