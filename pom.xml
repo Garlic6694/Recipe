@@ -174,23 +174,34 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.eclipse.emt4j</groupId>
-                <artifactId>emt4j-maven-plugin</artifactId>
-                <version>0.8.0</version>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.0</version>
                 <executions>
                     <execution>
-                        <phase>process-test-classes</phase>
+                        <id>build-image</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>check</goal>
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <fromVersion>11</fromVersion>
-                    <toVersion>17</toVersion>
-                    <outputFile>report.html</outputFile>
+                    <imageName>mall-tiny/${project.artifactId}:${project.version}</imageName>
+                    <dockerHost>http://192.168.1.138:2375</dockerHost>
+                    <baseImage>java:11</baseImage>
+                    <entryPoint>["java", "-jar","/${project.build.finalName}.jar"]
+                    </entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

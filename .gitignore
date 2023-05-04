@@ -1,8 +1,15 @@
 HELP.md
+mvnw
+mvnw.cmd
+Token.json
+report.html
+
+.emt4j/
+
+.mvn/
+
+
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
