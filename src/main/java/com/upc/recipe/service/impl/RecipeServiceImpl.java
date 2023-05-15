@@ -57,14 +57,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Cacheable(value = {"queryById"}, keyGenerator = "keyGenerator")
+    @Cacheable(value = {"listAllRecipe"}, keyGenerator = "keyGenerator")
     public List<Recipe> listAllRecipe() {
         List<Recipe> recipeList = recipeMapperManual.listAll();
         return recipeList;
     }
 
     @Override
-    @Cacheable(value = {"queryById"}, keyGenerator = "keyGenerator")
+    @Cacheable(value = {"listPageRecipe"}, keyGenerator = "keyGenerator")
     public List<Recipe> listPageRecipe(Integer pageNum, Integer pageSize) {
         pageNum = (pageNum - 1) * pageSize;
         return recipeMapperManual.listPageRecipe(pageNum, pageSize);
