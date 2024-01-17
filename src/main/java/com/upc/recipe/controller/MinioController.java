@@ -54,7 +54,7 @@ public class MinioController {
             String path = sdf.format(new Date());
             String objectUrl = minioUtils.putObject(minioClient, BUCKET_NAME, path, file, filename);
 
-            if (objectUrl == null || objectUrl.equals("")) {
+            if (objectUrl == null || objectUrl.isEmpty()) {
                 return CommonResult.failed("上传失败");
             }
             MinioUploadDto minioUploadDto = new MinioUploadDto();
@@ -102,7 +102,7 @@ public class MinioController {
                     return CommonResult.failed("下载失败");
                 }
                 response.setCharacterEncoding("UTF-8");
-                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(objectName, StandardCharsets.UTF_8));
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(objectName, String.valueOf(StandardCharsets.UTF_8)));
                 IOUtils.copy(inputStream, response.getOutputStream());
                 return CommonResult.success(inputStream, "下载成功");
             }
@@ -122,12 +122,12 @@ public class MinioController {
                     .credentials(ACCESS_KEY, SECRET_KEY)
                     .build();
             String previewFileUrl = minioUtils.getPreviewFileUrl(minioClient, BUCKET_NAME, objectName);
-            if (previewFileUrl.equals("")) {
+            if (previewFileUrl.isEmpty()) {
                 return CommonResult.failed("图片不存在或查找出现错误");
             }
             return CommonResult.success(previewFileUrl, "图片预览路径");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.toString());
         }
         return CommonResult.failed("获取图片路径失败");
     }
